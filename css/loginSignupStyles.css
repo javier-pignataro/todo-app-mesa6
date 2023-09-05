@@ -1,10 +1,7 @@
 @import url('./globalStyles.css');
 
 body {
-    background-image: url('../assets/wallpaper1.jpg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+    background: url('../assets/wallpaper1.jpg') no-repeat center/cover;
     /* capa sobre fondo */
     box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, .6);
 

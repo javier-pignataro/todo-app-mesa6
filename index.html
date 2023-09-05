@@ -5,40 +5,47 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ToDo App</title>
   <link rel="icon" type="image/x-icon" href="./assets/DH_Logo_Black.png">
-  <meta name="description" content="Digital House CTD | Proyecto integrador | FRONTEND II"/>
-  <!-- estilos compartidos de login y signup -->
-  <link rel="stylesheet" href="./css/loginSignupStyles.css">
+  <meta name="description" content="Digital House CTD | Proyecto integrador | FRONTEND II" />
+  <!-- libreria de iconos Fontawesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- estilos CSS -->
+  <link rel="stylesheet" href="./css/tasksStyles.css">
+
+  <!-- logica de la página -->
+  <script src="./scripts/taks.js"></script>
 </head>
 
 <body>
+  <!-- cabecera con barra de navegación -->
   <header class="container">
     <nav>
       <h1>To-Do App</h1>
-      <img src="./assets/DigitalHouse_Logo_White.png" alt="logo DH">
+      <div class="user-info">
+        <p>username</p>
+        <div class="user-image"></div>
+        <button id="closeApp"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+      </div>
     </nav>
   </header>
   
-  <div class="container">
-    <form>
-      <div class="form-header">
-        <h2>To-Do App</h2>
-        <p class="rounded">Login</p>
-      </div>
-      
-      <label>Email</label>
-      <input id="inputEmail" type="text">
-      <label>Contraseña</label>
-      <input id="inputPassword" type="password">
-      
-      <button type="submit">Ingresar</button>
+  <main class="container">
+    <!-- carga de tareas -->
+    <form class="nueva-tarea">
+      <input id="nuevaTarea" type="text" placeholder="nueva tarea">
+      <button type="submit"><i class="fa-solid fa-pencil"></i> Crear tarea</button>
     </form>
-    
-    <div class="ingresarA">
-      <a href="signup.html">¿No tienes una cuenta? Regístrate aquí</a>
-    </div>
-  </div>
-  <script src="./scripts/utils.js"></script>
-  <!-- logica aplicada en login -->
-  <script src="./scripts/login.js"></script>
+
+    <!-- contenedor vacío para las que pasen a pendientes -->
+    <ul class="tareas-pendientes"></ul>
+
+    <h2>Tareas finalizadas <span id="cantidad-finalizadas">0</span></h2>
+    <!-- contenedor vacío para las que pasen a terminadas -->
+    <ul class="tareas-terminadas"></ul>
+  </main>
+
+  <footer>
+    <img src="./assets/DH_Logo_White.png" alt="">
+    <p>| Frontend II Team ♥</p>
+  </footer>
 </body>
 </html>
