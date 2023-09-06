@@ -14,21 +14,27 @@ form.addEventListener('submit', (e) => {
       agregarError("passwordReply", "Las contraseñas no coinciden.");
       password.value = '';
       passwordReply.value = '';
+      break
     case !validarTexto(firstName.value):
       agregarError("firstName", "El nombre no es válido.");
       firstName.value = '';
+      break
     case !validarTexto(lastName.value):
       agregarError("lastName", "El apellido no es válido.");
       lastName.value = '';
+      break
     case !validarEmail(email.value):
       agregarError("email", "El correo electrónico no es válido.");
       email.value = '';
+      break
     case compararContrasenias(pass, passRepetida):
       validarContrasenia(pass);
+      break
     case !validarContrasenia(pass):
       agregarError("password", "La contraseña no es segura.");
       password.value = '';
       passwordReply.value = ''; 
+      break
   }
   console.log(errores);
 

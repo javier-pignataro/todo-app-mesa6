@@ -10,12 +10,9 @@ let payload = {}, settings = {};
 
 /* texto */
 function validarTexto(texto) {
-  // Expresión regular para validar el texto
-  const regexTexto = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
-  // Realizar la validación
-  return regexTexto.test(texto);
+  return texto.length>=4 && texto.match(/[0-9]/) === null;
 }
-
+console.log();
 function normalizarTexto(texto) {
   // Pone los textos en minuscula
   const txtNormal = texto.trim().toLowerCase();
