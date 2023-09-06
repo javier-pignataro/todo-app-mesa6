@@ -1,11 +1,11 @@
 window.addEventListener("load", function () {
   /* ---------------------- obtenemos variables globales ---------------------- */
   const form = document.forms[0];
-  const nombre = document.querySelector("#inputNombre");
-  const apellido = document.querySelector("#inputApellido");
+  const firstName = document.querySelector("#inputNombre");
+  const lastName= document.querySelector("#inputApellido");
   const email = document.querySelector("#inputEmail");
   const password = document.querySelector("#inputPassword");
-  const repetirPassword = document.querySelector("#inputPasswordRepetida");
+  const PasswordReply = document.querySelector("#inputPasswordRepetida");
   const url = "https://todo-api.ctd.academy/v1/users";
 
   /* -------------------------------------------------------------------------- */
@@ -14,10 +14,10 @@ window.addEventListener("load", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    if (compararContrasenias(password.value, repetirPassword.value)) {
+    if (compararContrasenias(password.value, PasswordReply.value)) {
       const payload = {
-        firstName: nombre.value,
-        lastName: apellido.value,
+        firstName: firstName.value,
+        lastName: lastName.value,
         email: email.value,
         password: password.value,
       };
@@ -40,6 +40,7 @@ window.addEventListener("load", function () {
   /*                    FUNCIÓN 2: Realizar el signup [POST]                    */
   /* -------------------------------------------------------------------------- */
   function realizarRegister(settings) {
+    console.log(settings)
     fetch(`${url}`, settings)
       .then((response) => {
         console.log(response);
@@ -47,7 +48,7 @@ window.addEventListener("load", function () {
       })
       .then((data) => {
         console.log(data);
-        if (data.jwt) localStorage.setItem("jwt", JSON.stringify(data.jwt));
+        if (data.jwt) location.replace('./index.html');
       })
 
       .catch((err) => {
