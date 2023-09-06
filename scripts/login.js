@@ -3,7 +3,7 @@ window.addEventListener('load', function () {
     const form = document.forms[0]
     const email = document.querySelector("#inputEmail")
     const password = document.getElementById("inputPassword")
-    const url = "https://todo-api.ctd.academy/v1"
+    const url = ""
     // console.log(form);
 
     /* -------------------------------------------------------------------------- */
@@ -11,7 +11,7 @@ window.addEventListener('load', function () {
     /* -------------------------------------------------------------------------- */
     form.addEventListener('submit', function (event) {
         event.preventDefault()
-
+        
         //Creamos el cuerpo de la request (petición al servidor)
         const payload = {
             email: email.value,
@@ -67,7 +67,7 @@ window.addEventListener('load', function () {
                     localStorage.setItem("jwt", JSON.stringify(data.jwt))
 
                     // redireccionamos a nuestro dashboard de todo
-                    // location.replace("./mis-tareas.html")
+                    location.replace("./mis-tareas.html")
                 }
 
             })
