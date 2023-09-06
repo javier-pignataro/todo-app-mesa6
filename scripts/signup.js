@@ -33,6 +33,7 @@ window.addEventListener("load", function () {
       console.log(settings);
     } else {
       alert("Las contraseñas no son iguales");
+      
     }
   });
 
@@ -68,3 +69,4 @@ window.addEventListener("load", function () {
       });
   }
 });
+
