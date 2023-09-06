@@ -10,16 +10,30 @@ let payload = {}, settings = {};
 
 /* texto */
 function validarTexto(texto) {
+  // Expresión regular para validar el texto
+  const regexTexto = /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ\s]+$/;
+  // Realizar la validación
+  return regexTexto.test(texto);
 }
 
 function normalizarTexto(texto) {
+  // Pone los textos en minuscula
+  const txtNormal = texto.trim().toLowerCase();
+  return txtNormal;
 }
 
 /* email */
 function validarEmail(email) {
+  // Expresión regular para validar el formato de un correo electrónico
+  const regexEmail = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+  // Realizar la validación
+  return regexEmail.test(email);
 }
 
 function normalizarEmail(email) {
+  // Pone los correos en minuscula
+  const emailNormal = email.trim().toLowerCase();
+  return emailNormal;
 }
 
 /* password */

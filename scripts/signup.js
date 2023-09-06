@@ -6,21 +6,49 @@ form.addEventListener('submit', (e) => {
   const pass = password.value;
   const passRepetida = passwordReply.value;
 
-  if (compararContrasenias(pass, passRepetida)) {
+  let errores = [];
+
+  switch (true) {
+    case !compararContrasenias(pass, passRepetida):
+      agregarError("password", "Las contraseñas no coinciden.");
+      agregarError("passwordReply", "Las contraseñas no coinciden.");
+      password.value = '';
+      passwordReply.value = '';
+    case !validarTexto(firstName.value):
+      agregarError("firstName", "El nombre no es válido.");
+      firstName.value = '';
+    case !validarTexto(lastName.value):
+      agregarError("lastName", "El apellido no es válido.");
+      lastName.value = '';
+    case !validarEmail(email.value):
+      agregarError("email", "El correo electrónico no es válido.");
+      email.value = '';
+    case compararContrasenias(pass, passRepetida):
+      validarContrasenia(pass);
+    case !validarContrasenia(pass):
+      agregarError("password", "La contraseña no es segura.");
+      password.value = '';
+      passwordReply.value = ''; 
+  }
+  console.log(errores);
+
+  function agregarError(campo, mensaje) {
+    errores.push({ campo, mensaje });
+  }
+
+  if (errores.length === 0) {
     payload = {
-      firstName: firstName.value,
-      lastName: lastName.value,
-      email: email.value,
+      firstName: normalizarTexto(firstName.value),
+      lastName: normalizarTexto(lastName.value),
+      email: normalizarEmail(email.value),
       password: pass,
     };
     console.log(payload);
     realizarRegister(payload);
   } else {
-    // Muestra un mensaje de error y limpia los campos de contraseña y contraseña repetida
-    console.warn("Las contraseñas no son iguales.");
-    alert("Las contraseñas no son iguales.");
-    password.value = '';
-    passwordReply.value = '';
+    errores.forEach((error) => {
+      console.warn(`${error.mensaje}`);
+    });
   }
 });
 
@@ -28,21 +56,12 @@ form.addEventListener('submit', (e) => {
 /* FUNCIÓN 2: Realizar el signup [POST] */
 /* ---------------------------------------------- */
 function realizarRegister(payload) {
-  if (validarContrasenia(payload.password)) {
-    const settings = {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-    console.log(settings);
-    // Aquí para enviar los datos al servidor
-  } else {
-    // Muestra un mensaje de error si la contraseña no es segura
-    console.warn("La contraseña no es segura.");
-    alert("La contraseña no es segura.");
-    password.value = '';
-    passwordReply.value = '';
-  }
+  const settings = {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+  console.log(settings);
 }
