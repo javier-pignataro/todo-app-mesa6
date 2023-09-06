@@ -19,8 +19,6 @@ form.addEventListener('submit', (e) => {
     }
   };
   realizarLogin(settings);
-  // Limpiamos el formulario
-  form.reset()
 });
 
 /* ---------------------------------------------- */
@@ -52,14 +50,41 @@ function handleData(data) {
 function handleError(err) {
   console.warn("Promesa rechazada");
   console.log(err);
-  if (err.status == 400) {
-    console.warn("Contraseña incorrecta");
-    alert("Contraseña incorrecta");
-  } else if (err.status == 404) {
-    console.warn("El usuario no existe");
-    alert("El usuario no existe");
-  } else {
-    console.error("Error del servidor | url no existe");
-    alert("Error del servidor | url no existe");
+  removeErrorMessages();
+  switch (err.status) {
+    case 400:
+      console.warn("Contraseña incorrecta");
+      addErrorMessage(password, "Contraseña incorrecta");
+      password.value= '';
+      break;
+    case 404:
+      console.warn("El usuario no existe");
+      addErrorMessage(email, "El usuario no existe");
+      email.value= '';
+      email.style.margin = '';
+      break;
+    default:
+      console.error("Error del servidor | URL no existe");
+      addErrorMessage(email, "Error del servidor | URL no existe");
+      email.value= '';
+      email.style.margin = '';
   }
+}
+
+// Función para agregar un mensaje de error debajo del elemento de entrada
+function addErrorMessage(inputElement, errorMessage) {
+  const errorSpan = document.createElement("span");
+  errorSpan.textContent = errorMessage;
+  errorSpan.classList.add("error-message");
+  errorSpan.style.cssText = "color: red; font-size: 10px; margin: 0 0 10px; text-align: center;";
+  inputElement.style.cssText += "margin: 0 0 5px;";
+  inputElement.parentNode.insertBefore(errorSpan, inputElement.nextSibling);
+}
+
+// Función para eliminar todos los mensajes de error
+function removeErrorMessages() {
+  const errorMessages = document.querySelectorAll(".error-message");
+  errorMessages.forEach(errorMessage => {
+    errorMessage.parentNode.removeChild(errorMessage);
+  });
 }
