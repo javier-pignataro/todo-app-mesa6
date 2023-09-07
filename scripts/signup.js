@@ -14,27 +14,30 @@ window.addEventListener("load", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    if (compararContrasenias(password.value, PasswordReply.value)) {
-      const payload = {
-        firstName: firstName.value,
-        lastName: lastName.value,
-        email: email.value,
-        password: password.value,
+    if (compararContrasenias(password.value, PasswordReply.value) && validarTexto(firstName.value) 
+        && validarEmail(email.value) && validarTexto(lastName.value) && validarContrasenia(password.value)){
+        const payload = {
+          firstName: firstName.value,
+          lastName: lastName.value,
+          email: email.value,
+          password: password.value,
       };
-      const settings = {
-        method: "POST",
-        body: JSON.stringify(payload),
-        headers: {
-          "Content-Type": "application/json",
+        const settings = {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            "Content-Type": "application/json",
         }
       }
       realizarRegister(settings);
       form.reset();
       console.log(settings);
-    } else {
-      alert("Las contraseñas no son iguales");
-      
     }
+    else {
+      return alert('no es posible generar el usuario, los datos ingresados son incorrectos o hay campos vacios')
+    }
+
+  ;
   });
 
   /* -------------------------------------------------------------------------- */
