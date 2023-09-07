@@ -14,8 +14,8 @@ window.addEventListener("load", function () {
   form.addEventListener("submit", function (event) {
     event.preventDefault();
 
-    if (compararContrasenias(password.value, PasswordReply.value) && validarTexto(firstName.value) 
-        && validarEmail(email.value) && validarTexto(lastName.value) && validarContrasenia(password.value)){
+    if (validarTexto(firstName.value) && validarTexto(lastName.value) && validarContrasenia(password.value) &&
+    compararContrasenias(password.value, PasswordReply.value)  && validarEmail(email.value)){
         const payload = {
           firstName: firstName.value,
           lastName: lastName.value,

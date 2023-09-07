@@ -8,7 +8,11 @@ const password = document.querySelector("#inputPassword");
 const PasswordReply = document.querySelector("#inputPasswordRepetida");
 
 function validarTexto(texto) {
-        
+    if (texto.length >= 4 && texto.match(/[0-9]/) === null){
+        return true
+    }else {
+        return alert('porfavor ingrese un nombre o un apellido valido')
+    }
 }
 
 function normalizarTexto(texto) {
@@ -53,5 +57,5 @@ function compararContrasenias(contrasenia_1, contrasenia_2) {
   }
 }
 
-console.log(validarTexto("tomas"))
+console.log(validarTexto("1234"))
 
