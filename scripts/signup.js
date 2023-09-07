@@ -23,7 +23,7 @@ window.addEventListener("load", function () {
       if(!nombreValido || !apellidoValido){
         alert("Formato de nombre y/o apellido incorrecto");
       } else if (!(validarEmail(email.value))) {
-        alert("Ingrese una dirección de correo no válida");
+        alert("Ingrese una dirección de correo válida");
       } else {
         const payload = {
           firstName: name.value,
