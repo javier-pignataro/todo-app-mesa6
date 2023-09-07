@@ -1,7 +1,7 @@
 /* ---------------------------------- texto --------------------------------- */
 function validarTexto(texto) {
-    let solosLetras = /^[A-Za-z]+$/;
-    return texto.length >= 4 && solosLetras.test(solosLetras);
+    let solosLetras = /^[A-Za-zÁáÉéÍíÓóÚúÜüÑñ\s-]+$/;
+    return texto.length >= 3 && solosLetras.test(texto);
 }
 
 function normalizarTexto(texto) {
@@ -32,7 +32,7 @@ function validarContrasenia(contrasenia) {
 
 }
 
-function compararContrasenias(contrasenia_1, contrasenia_2) {
-    
+function compararContrasenias(contraseniaUno, contraseniaDos) {
+    return contraseniaUno == contraseniaDos;
 }
 

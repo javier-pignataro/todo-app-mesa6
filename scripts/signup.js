@@ -15,29 +15,44 @@ window.addEventListener("load", function () {
   form.addEventListener("submit", function (event) {
     
     event.preventDefault();
+
+    const nombreValido = validarTexto(name.value);
+    const apellidoValido = validarTexto(lastName.value);
+
+    if(compararContrasenias(password.value, repeatPassword.value)){
+      if(!nombreValido || !apellidoValido){
+        alert("Formato de nombre y/o apellido incorrecto");
+      } else if (!(validarEmail(email.value))) {
+        alert("Ingrese una dirección de correo no válida");
+      } else {
+        const payload = {
+          firstName: name.value,
+          lastName: lastName.value,
+          email: email.value,
+          password: password.value,
+          repeatPassword: repeatPassword.value
+          
+        }
+  
+        console.log(payload)
+  
+        const setting = {
+          method: "POST",
+          body: JSON.stringify(payload),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }
+  
+        realizarRegister(setting);
     
-    const payload = {
-      firstName: name.value,
-      lastName: lastName.value,
-      email: email.value,
-      password: password.value,
-      repeatPassword: repeatPassword.value
-    }
-    console.log(payload)
-
-    const setting = {
-      method: "POST",
-      body: JSON.stringify(payload),
-      headers: {
-        'Content-Type': 'application/json'
+        form.reset;
       }
-    }
-  
-  
-
-    realizarRegister(setting);
-
-    form.reset;
+        
+      
+    } else {
+      alert("Las contraseñas no coinciden");
+    }    
 
   });
 
