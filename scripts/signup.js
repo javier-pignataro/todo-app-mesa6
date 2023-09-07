@@ -7,31 +7,10 @@ form.addEventListener('submit', async (e) => {
   const isValid = validForm();
   errores = [];
   if (isValid) {
-    const payload = prepararPayload();
+    const payload = preparePayload();
     await realizarRegister(payload);
   }
 });
-
-/* ---------------------------------------------- */
-/* FUNCIÓN 2: Realizar el signup [POST] */
-/* ---------------------------------------------- */
-async function realizarRegister(payload) {
-  const settings = {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-
-  // try {
-  //   const response = await fetch(`${url}`, settings);
-  //   const data = await response.json();
-  //   console.log(data);
-  // } catch (error) {
-  //   console.error(error);
-  // }
-}
 
 // Función para validar el formulario
 function validForm() {
@@ -64,7 +43,7 @@ function validForm() {
 }
 
 // Función para preparar el payload
-function prepararPayload() {
+function preparePayload() {
   // Preparar y retornar el objeto payload
   const payload = {
     firstName: normalizarTexto(firstName.value),
@@ -75,19 +54,66 @@ function prepararPayload() {
   return payload;
 }
 
-// Función para agregar un mensaje de error
-function addErrorMessage(campo, mensaje) {
-  // Agregar el mensaje de error al arreglo de errores
-  errores.push({ campo, mensaje });
-  // Llamar a la función para mostrar los errores
-  mostrarErrores();
+/* ---------------------------------------------- */
+/* FUNCIÓN 2: Realizar el signup [POST] */
+/* ---------------------------------------------- */
+async function realizarRegister(payload) {
+  const settings = {
+    method: "POST",
+    body: JSON.stringify(payload),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const response = await fetch(`${URL}/users`, settings);
+    if (!response.ok) {
+      throw response;
+    }
+    const data = await response.json();
+    console.log(data);
+    handleData(data);
+  } catch (err) {
+    console.error(err);
+    handleError(err);
+  }
 }
 
-function mostrarErrores() {
+function handleData(data) {
+  if (data.jwt) {
+    // redireccionamos a nuestro dashboard de todo  
+    location.replace("./login.html")
+  }
+}
+
+function handleError(err) {
+  console.warn("Promesa rechazada");
+  console.log(err);
+  removeErrorMessages();
+  switch (err.status) {
+    case 400:
+      console.warn("El usuario ya se encuentra registrado");
+      addErrorMessage(password, "El usuario ya se encuentra registrado");
+      break;
+    default:
+      console.error("Error del servidor");
+      addErrorMessage(email, "Error del servidor");
+  }
+}
+
+// Función para agregar el mensaje de error al arreglo
+function addErrorMessage(campo, mensaje) {
+  errores.push({ campo, mensaje });
+  showErrorMessage();
+}
+
+// Función para mostrar los mensajes que estan en el arreglo
+function showErrorMessage() {
   // Eliminar mensajes de error anteriores
   form.querySelectorAll(".error-message").forEach((mensajeAnterior) => {
-    resetStyle();
     mensajeAnterior.remove();
+    resetStyle();
   });
   
   // Recorrer el arreglo de errores y generar mensajes de error
@@ -102,12 +128,20 @@ function mostrarErrores() {
   });
 }
 
+// Función para eliminar los mensajes de error que se solucionan
+function removeErrorMessages() {
+  const errorMessages = document.querySelectorAll(".error-message");
+  errorMessages.forEach(errorMessage => {
+    errorMessage.parentNode.removeChild(errorMessage);
+  });
+}
+
+// Eliminar el estilo margin de los campos sin mensaje de error
 function resetStyle() {
-  // Eliminar el estilo margin de los campos sin mensaje de error
   form.querySelectorAll("input").forEach((input) => {
     const errorSpan = input.parentNode.querySelector(".error-message");
     if (!errorSpan) {
-      input.style.margin = ""; // Eliminar el estilo "margin"
+      input.style.margin = "";
     }
   });
 }

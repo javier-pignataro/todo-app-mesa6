@@ -27,7 +27,7 @@ form.addEventListener('submit', (e) => {
 async function realizarLogin(settings) {
   console.log("Lanzar la consulta a la API...");
   try {
-    const response = await fetch(`${url}/users/login`, settings);
+    const response = await fetch(`${URL}/users/login`, settings);
     if (!response.ok) {
       throw response;
     }

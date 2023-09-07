@@ -1,5 +1,5 @@
 /* obtenemos variables globales */
-const url = "https://todo-api.ctd.academy/v1";
+const URL = "https://todo-api.ctd.academy/v1";
 let form = document.forms[0];
 let firstName = document.querySelector("#inputNombre");
 let lastName = document.querySelector("#inputApellido");
@@ -12,7 +12,7 @@ let payload = {}, settings = {};
 function validarTexto(texto) {
   return texto.length>=4 && texto.match(/[0-9]/) === null;
 }
-console.log();
+
 function normalizarTexto(texto) {
   // Pone los textos en minuscula
   const txtNormal = texto.trim().toLowerCase();
