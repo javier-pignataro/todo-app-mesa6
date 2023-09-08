@@ -7,15 +7,14 @@
 window.addEventListener('load', function () {
 
   /* ---------------- variables globales y llamado a funciones ---------------- */
+  const btnCerrarSesion = document.querySelector('#closeApp')
+  const jwt = localStorage.jwt
+
+
   
-
-
-  /* -------------------------------------------------------------------------- */
-  /*                          FUNCIÓN 1 - Cerrar sesión                         */
-  /* -------------------------------------------------------------------------- */
-
   btnCerrarSesion.addEventListener('click', function () {
-   
+    jwt = ""
+    location.replace('./index.html')
 
 
 
