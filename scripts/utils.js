@@ -22,6 +22,6 @@ function validarContrasenia(contrasenia) {
 }
 
 function compararContrasenias(contrasenia_1, contrasenia_2) {
-    
+    return contrasenia_1 === contrasenia_2
 }
 

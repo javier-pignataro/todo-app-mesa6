@@ -20,7 +20,7 @@ window.addEventListener("load", function () {
         alert("Por favor usa un email valido");
         return;
       }
-      if (password.value !== passwordConfirmation.value) {
+      if (!compararContrasenias(password.value, passwordConfirmation.value)) {
         alert("Las contraseñas no coinciden");
         return;
       }
