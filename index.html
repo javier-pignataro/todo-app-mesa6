@@ -11,8 +11,6 @@
   <!-- estilos CSS -->
   <link rel="stylesheet" href="./css/tasksStyles.css">
 
-  <!-- logica de la página -->
-  <script src="./scripts/taks.js"></script>
 </head>
 
 <body>
@@ -34,18 +32,21 @@
       <input id="nuevaTarea" type="text" placeholder="nueva tarea">
       <button type="submit"><i class="fa-solid fa-pencil"></i> Crear tarea</button>
     </form>
-
+    
     <!-- contenedor vacío para las que pasen a pendientes -->
     <ul class="tareas-pendientes"></ul>
-
+    
     <h2>Tareas finalizadas <span id="cantidad-finalizadas">0</span></h2>
     <!-- contenedor vacío para las que pasen a terminadas -->
     <ul class="tareas-terminadas"></ul>
   </main>
-
+  
   <footer>
     <img src="./assets/DH_Logo_White.png" alt="">
     <p>| Frontend II Team ♥</p>
   </footer>
+  <!-- logica de la página -->
+  <script src="./scripts/utils.js"></script>
+  <script src="./scripts/tasks.js"></script>
 </body>
 </html>

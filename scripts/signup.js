@@ -1,3 +1,6 @@
+let firstName = document.querySelector("#inputNombre");
+let lastName = document.querySelector("#inputApellido");
+let passwordReply = document.querySelector("#inputPasswordRepetida");
 let errores = [];
 /* ---------------------------------------------- */
 /* FUNCIÓN 1: Escuchamos el submit y preparamos el envío */
@@ -72,10 +75,8 @@ async function realizarRegister(payload) {
       throw response;
     }
     const data = await response.json();
-    console.log(data);
     handleData(data);
   } catch (err) {
-    console.error(err);
     handleError(err);
   }
 }

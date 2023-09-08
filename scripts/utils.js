@@ -1,11 +1,8 @@
 /* obtenemos variables globales */
 const URL = "https://todo-api.ctd.academy/v1";
 let form = document.forms[0];
-let firstName = document.querySelector("#inputNombre");
-let lastName = document.querySelector("#inputApellido");
 let email = document.querySelector("#inputEmail");
 let password = document.querySelector("#inputPassword");
-let passwordReply = document.querySelector("#inputPasswordRepetida");
 let payload = {}, settings = {};
 
 /* texto */
@@ -44,7 +41,10 @@ function validarContrasenia(contrasenia) {
   return (contrasenia.length >= longitud && contMayus && contMinus && contNum && contEspec);
 }
 
-
 function compararContrasenias(contrasenia_1, contrasenia_2) {
   return contrasenia_1 === contrasenia_2;
+}
+
+function capitalizarPalabras(texto) {
+  return texto.replace(/\b\w/g, (match) => match.toUpperCase());
 }
