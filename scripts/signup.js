@@ -24,11 +24,13 @@ window.addEventListener("load", function () {
         alert("Formato de nombre y/o apellido incorrecto");
       } else if (!(validarEmail(email.value))) {
         alert("Ingrese una dirección de correo válida");
+      } else if(!(validarContrasenia(password.value))){
+        alert(`La contraseña debe tener: 8 caracteres como mínimo; al menos una mayúscula, una minúscula, un número entero y un caracter especial`)
       } else {
         const payload = {
-          firstName: name.value,
-          lastName: lastName.value,
-          email: email.value,
+          firstName: normalizarTexto(name.value),
+          lastName: normalizarTexto(lastName.value),
+          email: normalizarEmail(email.value),
           password: password.value,
           repeatPassword: repeatPassword.value
           
@@ -45,14 +47,14 @@ window.addEventListener("load", function () {
         }
   
         realizarRegister(setting);
-    
-        form.reset;
+        form.reset();
+        
       }
         
-      
     } else {
       alert("Las contraseñas no coinciden");
-    }    
+    }  
+    
 
   });
 

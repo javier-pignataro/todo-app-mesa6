@@ -28,7 +28,7 @@ function validarContrasenia(contrasenia) {
     let numero = /[0-9]/.test(contrasenia);
     let caracterEspecial = /[@#$%^&+=!]/.test(contrasenia);
 
-    return (contrasenia.length = caracteresMinimos && mayuscula && minuscula&& numero && caracterEspecial);
+    return (contrasenia.length >= caracteresMinimos && mayuscula && minuscula && numero && caracterEspecial);
 
 }
 
