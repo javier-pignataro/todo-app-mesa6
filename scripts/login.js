@@ -8,9 +8,7 @@ form.addEventListener('submit', (e) => {
     email: email.value,
     password: password.value
   };
-  // vemos el objeto que recibimos del formulario
   console.log(payload);
-  //configuramos la request del Fetch
   settings = {
     method: "POST",
     body: JSON.stringify(payload),
@@ -27,11 +25,7 @@ form.addEventListener('submit', (e) => {
 async function realizarLogin(settings) {
   console.log("Lanzar la consulta a la API...");
   try {
-    const response = await fetch(`${URL}/users/login`, settings);
-    if (!response.ok) {
-      throw response;
-    }
-    const data = await response.json();
+    const data = await fetchAPI(`${URL}/users/login`, settings);
     handleData(data);
   } catch (err) {
     handleError(err);
@@ -49,7 +43,6 @@ function handleData(data) {
 
 function handleError(err) {
   console.warn("Promesa rechazada");
-  console.log(err);
   removeErrorMessages();
   switch (err.status) {
     case 400:
@@ -58,33 +51,12 @@ function handleError(err) {
       password.value= '';
       break;
     case 404:
-      console.warn("El usuario no existe");
-      addErrorMessage(email, "El usuario no existe");
+      console.warn("El correo no esta registrado");
+      addErrorMessage(email, "El correo no esta registrado");
       email.value= '';
-      email.style.margin = '';
       break;
     default:
       console.error("Error del servidor | URL no existe");
-      addErrorMessage(email, "Error del servidor | URL no existe");
-      email.value= '';
-      email.style.margin = '';
+      alert("Error del servidor | URL no existe");
   }
-}
-
-// Función para agregar un mensaje de error debajo del elemento de entrada
-function addErrorMessage(inputElement, errorMessage) {
-  const errorSpan = document.createElement("span");
-  errorSpan.textContent = errorMessage;
-  errorSpan.classList.add("error-message");
-  errorSpan.style.cssText = "color: red; font-size: 10px; margin: 0 0 10px; text-align: center;";
-  inputElement.style.cssText += "margin: 0 0 5px;";
-  inputElement.parentNode.insertBefore(errorSpan, inputElement.nextSibling);
-}
-
-// Función para eliminar todos los mensajes de error
-function removeErrorMessages() {
-  const errorMessages = document.querySelectorAll(".error-message");
-  errorMessages.forEach(errorMessage => {
-    errorMessage.parentNode.removeChild(errorMessage);
-  });
 }

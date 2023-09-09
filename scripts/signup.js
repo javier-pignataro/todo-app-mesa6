@@ -1,148 +1,102 @@
 let firstName = document.querySelector("#inputNombre");
 let lastName = document.querySelector("#inputApellido");
-let passwordReply = document.querySelector("#inputPasswordRepetida");
-let errores = [];
+let passwordReply = document.querySelector("#inputPasswordRepetida")
+
+
 /* ---------------------------------------------- */
 /* FUNCIÓN 1: Escuchamos el submit y preparamos el envío */
 /* ---------------------------------------------- */
-form.addEventListener('submit', async (e) => {
+form.addEventListener('submit', (e) => {
   e.preventDefault();
-  const isValid = validForm();
-  errores = [];
-  if (isValid) {
-    const payload = preparePayload();
-    await realizarRegister(payload);
+  const errors = validForm();
+  // Validar que el objeto de errores este vacio
+  if (Object.keys(errors).length === 0) {
+    payload = {
+      firstName: normalizarTexto(firstName.value),
+      lastName: normalizarTexto(lastName.value),
+      email: normalizarEmail(email.value),
+      password: password.value,
+    };
+    realizarRegister(payload);
+  } else {
+    // Mandar el arreglo a la funcion que los maneja
+    handleError(errors, 'infoRegister');
   }
 });
 
 // Función para validar el formulario
 function validForm() {
-  const validFirstName = validarTexto(firstName.value);
-  const validLastName = validarTexto(lastName.value);
-  const isValidEmail = validarEmail(email.value);
-  const validPass = validarContrasenia(password.value);
-  const passEqual = compararContrasenias(password.value, passwordReply.value);
-
-  // Manejar errores y mensajes de error si es necesario
-  if (!passEqual) {
-    addErrorMessage(password, "Las contraseñas no coinciden.");
-    addErrorMessage(passwordReply, "Las contraseñas no coinciden.");
-  }
-  if (!validFirstName) {
-    addErrorMessage(firstName, "El nombre no es válido.");
-  }
-  if (!validLastName) {
-    addErrorMessage(lastName, "El apellido no es válido.");
-  }
-  if (!isValidEmail) {
-    addErrorMessage(email, "El correo electrónico no es válido.");
-  }
-  if (!validPass && passEqual) {
-    addErrorMessage(password, "La contraseña no es segura.");
-    addErrorMessage(passwordReply, "La contraseña no es segura.");
-  }
-  // Devolver true si el formulario es válido, false si hay errores
-  return passEqual && validFirstName && validLastName && isValidEmail && validPass;
-}
-
-// Función para preparar el payload
-function preparePayload() {
-  // Preparar y retornar el objeto payload
-  const payload = {
-    firstName: normalizarTexto(firstName.value),
-    lastName: normalizarTexto(lastName.value),
-    email: normalizarEmail(email.value),
-    password: password.value,
-  };
-  return payload;
+  const errorsForm = {};
+  // Maneja errores y mensajes de error
+  if (!compararContrasenias(password.value, passwordReply.value)) errorsForm.passwordMismatch = "Las contraseñas no coinciden.";
+  if (!validarTexto(firstName.value)) errorsForm.invalidFirstName = "El nombre no es válido.";
+  if (!validarTexto(lastName.value)) errorsForm.invalidLastName = "El apellido no es válido.";
+  if (!validarEmail(email.value)) errorsForm.invalidEmail = "El correo electrónico no es válido.";
+  if (!validarContrasenia(password.value) && compararContrasenias(password.value, passwordReply.value)) errorsForm.insecurePassword = "La contraseña no es segura.";
+  // Devolve el arreglo de errores
+  return errorsForm;
 }
 
 /* ---------------------------------------------- */
 /* FUNCIÓN 2: Realizar el signup [POST] */
 /* ---------------------------------------------- */
 async function realizarRegister(payload) {
-  const settings = {
+  settings = {
     method: "POST",
     body: JSON.stringify(payload),
     headers: {
       'Content-Type': 'application/json'
     }
   };
-
   try {
-    const response = await fetch(`${URL}/users`, settings);
-    if (!response.ok) {
-      throw response;
-    }
-    const data = await response.json();
+    const data = await fetchAPI(`${URL}/users`, settings);
     handleData(data);
   } catch (err) {
-    handleError(err);
+    handleError(err, 'register');
   }
 }
 
 function handleData(data) {
-  if (data.jwt) {
-    // redireccionamos a nuestro dashboard de todo  
-    location.replace("./login.html")
-  }
+  if (data.jwt) location.replace("./login.html");
 }
 
-function handleError(err) {
+function handleError(err, pedido) {
   console.warn("Promesa rechazada");
-  console.log(err);
   removeErrorMessages();
-  switch (err.status) {
-    case 400:
-      console.warn("El usuario ya se encuentra registrado");
-      addErrorMessage(password, "El usuario ya se encuentra registrado");
-      break;
-    default:
-      console.error("Error del servidor");
-      addErrorMessage(email, "Error del servidor");
-  }
-}
-
-// Función para agregar el mensaje de error al arreglo
-function addErrorMessage(campo, mensaje) {
-  errores.push({ campo, mensaje });
-  showErrorMessage();
-}
-
-// Función para mostrar los mensajes que estan en el arreglo
-function showErrorMessage() {
-  // Eliminar mensajes de error anteriores
-  form.querySelectorAll(".error-message").forEach((mensajeAnterior) => {
-    mensajeAnterior.remove();
-    resetStyle();
-  });
-  
-  // Recorrer el arreglo de errores y generar mensajes de error
-  errores.forEach((error) => {
-    const { campo, mensaje } = error;
-    const errorSpan = document.createElement("span");
-    errorSpan.textContent = mensaje;
-    errorSpan.classList.add("error-message");
-    errorSpan.style.cssText = "color: red; font-size: 10px; margin: 0 0 10px; text-align: center;";
-    campo.style.cssText += "margin: 0 0 5px;";
-    campo.parentNode.insertBefore(errorSpan, campo.nextSibling);
-  });
-}
-
-// Función para eliminar los mensajes de error que se solucionan
-function removeErrorMessages() {
-  const errorMessages = document.querySelectorAll(".error-message");
-  errorMessages.forEach(errorMessage => {
-    errorMessage.parentNode.removeChild(errorMessage);
-  });
-}
-
-// Eliminar el estilo margin de los campos sin mensaje de error
-function resetStyle() {
-  form.querySelectorAll("input").forEach((input) => {
-    const errorSpan = input.parentNode.querySelector(".error-message");
-    if (!errorSpan) {
-      input.style.margin = "";
+  if(pedido === 'register') {
+    switch (err.status) {
+      case 400:
+        console.warn("El usuario ya se encuentra registrado");
+        addErrorMessage(password, "El usuario ya se encuentra registrado");
+        break;
+      default:
+        console.error("Error del servidor");
+        alert("Error del servidor");
+        break;
     }
-  });
+  }
+  if(pedido === 'infoRegister') {
+    if (err.hasOwnProperty('passwordMismatch')) {
+      console.warn(err.passwordMismatch);
+      addErrorMessage(password, err.passwordMismatch);
+      addErrorMessage(passwordReply, err.passwordMismatch);
+    }
+    if (err.hasOwnProperty('invalidFirstName')) {
+      console.warn(err.invalidFirstName);
+      addErrorMessage(firstName, err.invalidFirstName);
+    }
+    if (err.hasOwnProperty('invalidLastName')) {
+      console.warn(err.invalidLastName);
+      addErrorMessage(lastName, err.invalidLastName);
+    }
+    if (err.hasOwnProperty('invalidEmail')) {
+      console.warn(err.invalidEmail);
+      addErrorMessage(email, err.invalidEmail);
+    }
+    if (err.hasOwnProperty('insecurePassword')) {
+      console.warn(err.insecurePassword);
+      addErrorMessage(password, err.insecurePassword);
+      addErrorMessage(passwordReply, err.insecurePassword);
+    }
+  }
 }
