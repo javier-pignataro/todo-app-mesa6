@@ -32,7 +32,7 @@ window.addEventListener("load", function () {
           lastName: normalizarTexto(lastName.value),
           email: normalizarEmail(email.value),
           password: password.value,
-          repeatPassword: repeatPassword.value
+          //repeatPassword: repeatPassword.value
           
         }
   
@@ -68,15 +68,19 @@ window.addEventListener("load", function () {
     fetch(`${url}/users`, settings)
 
       .then(response =>{
-        return response.json();
+        console.log(response)
+        if(response.ok) return response.json();
       })
 
       .then(data=>{
         console.log("Promesa cumplida💍");
         console.log(data);
+        console.log(data.jwt)
 
         if(data.jwt){
-          localStorage.setItem("jwt", JSON.stringify(data.jwt))
+          localStorage.setItem("jwt", JSON.stringify(data.jwt));
+
+          location.replace('./mis-tareas.html');
         }
       })
 
