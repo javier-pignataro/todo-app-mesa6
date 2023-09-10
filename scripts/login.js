@@ -48,15 +48,14 @@ function handleError(err) {
     case 400:
       console.warn("Contraseña incorrecta");
       addErrorMessage(password, "Contraseña incorrecta");
-      password.value= '';
       break;
     case 404:
       console.warn("El correo no esta registrado");
       addErrorMessage(email, "El correo no esta registrado");
-      email.value= '';
       break;
     default:
       console.error("Error del servidor | URL no existe");
       alert("Error del servidor | URL no existe");
+      break;
   }
 }

@@ -47,16 +47,24 @@ function compararContrasenias(contrasenia_1, contrasenia_2) {
 
 /* Funciones agregadas */
 // Función para realizar solicitudes fetch
-async function fetchAPI(url, options) {
+async function fetchData(url, method, payload = null) {
+  const headers = {
+    'Authorization': jwtToken,
+    'Content-Type': 'application/json',
+  };
+  settings = { method, headers };
+  if (payload) {
+    settings.body = JSON.stringify(payload);
+  }
   try {
-    const response = await fetch(url, options);
+    const response = await fetch(url, settings);
     if (!response.ok) {
-      throw response;
+      throw new Error('Error en la solicitud HTTP');
     }
     return await response.json();
-  } catch (error) {
-    console.error('Error:', error);
-    throw error;  }
+  } catch (err) {
+    handleError(err);
+  }
 }
 
 // Agregar un mensaje de error debajo del elemento de entrada
@@ -67,6 +75,7 @@ function addErrorMessage(input, errorMessage) {
   errorSpan.style.cssText = "color: red; font-size: 10px; margin: 0 0 10px; text-align: center;";
   input.style.cssText += "margin: 0 0 5px;";
   input.parentNode.insertBefore(errorSpan, input.nextSibling);
+  input.value = '';
 }
 
 // Eliminar todos los mensajes de error
@@ -74,6 +83,7 @@ function removeErrorMessages() {
   const errorMessages = document.querySelectorAll(".error-message");
   errorMessages.forEach(errorMessage => {
     errorMessage.parentNode.removeChild(errorMessage);
+    console.clear();
     resetStyleInput();
   });
 }
