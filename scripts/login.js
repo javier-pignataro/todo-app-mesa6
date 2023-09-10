@@ -8,24 +8,19 @@ form.addEventListener('submit', (e) => {
     email: email.value,
     password: password.value
   };
-  console.log(payload);
-  settings = {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  };
-  realizarLogin(settings);
+  realizarLogin(payload);
 });
 
 /* ---------------------------------------------- */
 /* FUNCIÓN 2: Realizar el login [POST]*/
 /* ---------------------------------------------- */
-async function realizarLogin(settings) {
+async function realizarLogin(payload) {
   console.log("Lanzar la consulta a la API...");
+  headersSettings = {
+    'Content-Type': 'application/json',
+  };
   try {
-    const data = await fetchAPI(`${URL}/users/login`, settings);
+    const data = await fetchData(`${URL}/users/login`, 'POST', headersSettings, payload);
     handleData(data);
   } catch (err) {
     handleError(err);

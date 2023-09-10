@@ -3,7 +3,8 @@ const URL = "https://todo-api.ctd.academy/v1";
 let form = document.forms[0];
 let email = document.querySelector("#inputEmail");
 let password = document.querySelector("#inputPassword");
-let payload = {}, settings = {};
+// Parte de las consultas
+let payload = {}, settings = {}, headersSettings = {};
 
 /* texto */
 function validarTexto(texto) {
@@ -47,11 +48,7 @@ function compararContrasenias(contrasenia_1, contrasenia_2) {
 
 /* Funciones agregadas */
 // Función para realizar solicitudes fetch
-async function fetchData(url, method, payload = null) {
-  const headers = {
-    'Authorization': jwtToken,
-    'Content-Type': 'application/json',
-  };
+async function fetchData(url, method, headers, payload = null) {
   settings = { method, headers };
   if (payload) {
     settings.body = JSON.stringify(payload);

@@ -41,15 +41,12 @@ function validForm() {
 /* FUNCIÓN 2: Realizar el signup [POST] */
 /* ---------------------------------------------- */
 async function realizarRegister(payload) {
-  settings = {
-    method: "POST",
-    body: JSON.stringify(payload),
-    headers: {
-      'Content-Type': 'application/json'
-    }
+  console.log("Lanzar la consulta a la API...");
+  headersSettings = {
+    'Content-Type': 'application/json',
   };
   try {
-    const data = await fetchAPI(`${URL}/users`, settings);
+    const data = await fetchData(`${URL}/users`, 'POST', headersSettings, payload);
     handleData(data);
   } catch (err) {
     handleError(err, 'register');

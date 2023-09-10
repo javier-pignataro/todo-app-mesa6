@@ -10,6 +10,10 @@ let contCompletedTasks = document.querySelector('#cantidad-finalizadas');
 let jwtToken = JSON.parse(localStorage.jwt);
 let tarea = document.querySelector('#nuevaTarea');
 let contador = 0;
+headersSettings = {
+  'Authorization': jwtToken,
+  'Content-Type': 'application/json',
+};
 
 // Función para verificar si el usuario está logeado
 function verificarSiLogeado() {
@@ -33,7 +37,8 @@ btnCerrarSesion.addEventListener('click', (e) => {
 /*  FUNCIÓN 2 - Obtener nombre de usuario [GET] */
 /* ---------------------------------------------- */
 async function obtenerNombreUsuario() {
-  const userData = await fetchData(`${URL}/users/getMe`, 'GET');
+  console.log("Lanzar la consulta a la API...");
+  const userData = await fetchData(`${URL}/users/getMe`, 'GET', headersSettings);
   handleData(userData, 'usuario');
 }
 obtenerNombreUsuario();
@@ -43,9 +48,8 @@ obtenerNombreUsuario();
 /* ---------------------------------------------- */
 async function consultarTareas() {
   try {
-    const tareas = await fetchData(`${URL}/tasks`, 'GET');
+    const tareas = await fetchData(`${URL}/tasks`, 'GET', headersSettings);
     handleData(tareas, 'listTasks');
-    console.log(tareas);
   } catch (err) {
     handleError(err, 'listTasks');
   }
@@ -61,9 +65,8 @@ form.addEventListener('submit', async (e) => {
     payload = {
       description: tarea.value.trim(),
     };
-    console.log(payload);
     try {
-      const data = await fetchData(`${URL}/tasks`, 'POST', payload);
+      const data = await fetchData(`${URL}/tasks`, 'POST', headersSettings, payload);
       tarea.value = '';
       consultarTareas();
     } catch (err) {
@@ -122,12 +125,11 @@ function botonesCambioEstado() {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
       const tareaId = e.target.id;
-      const payload = {
+      payload = {
         completed: !e.target.classList.contains('incompleta'), // Togglear entre true y false
       };
-
       try {
-        const data = await fetchData(`${URL}/tasks/${tareaId}`, 'PUT', payload);
+        const data = await fetchData(`${URL}/tasks/${tareaId}`, 'PUT', headersSettings, payload);
         consultarTareas();
       } catch (err) {
         handleError(err, 'changeState');
@@ -145,9 +147,8 @@ function botonBorrarTarea() {
     btn.addEventListener('click', async (e) => {
       e.preventDefault();
       const tareaId = e.target.id;
-
       try {
-        const data = await fetchData(`${URL}/tasks/${tareaId}`, 'DELETE');
+        const data = await fetchData(`${URL}/tasks/${tareaId}`, 'DELETE', headersSettings);
         consultarTareas();
       } catch (err) {
         handleError(err, 'clearTasks');
