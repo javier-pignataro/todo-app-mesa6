@@ -139,10 +139,10 @@ window.addEventListener(
                         ){
                               // Preparar el body ( payload )
                               const body = {
-                                    firstName: inputNombre,
-                                    lastName: inputApellido,
-                                    email: inputEmail,
-                                    password: inputPassword,
+                                    firstName: inputNombre.value,
+                                    lastName: inputApellido.value,
+                                    email: inputEmail.value,
+                                    password: inputPassword.value,
                               }
 
                               // Prearar la peticion
@@ -156,6 +156,7 @@ window.addEventListener(
 
                               // Realizar peticion
                               realizarRegister( settings );
+                              form.reset()
                         }
                         else {
                               renderizarMensajeRegistro( "Algunos de los datos son incorrectos o incompletos", false );
@@ -221,6 +222,7 @@ window.addEventListener(
             /* -------------------------------------------------------------------------- */
             function realizarRegister(settings) {
 
+                  renderizarMensajeRegistro( "Procesando...", true );
                   // fetch ();
                   fetch( urlSignUp, settings )
                   .then(
@@ -236,15 +238,13 @@ window.addEventListener(
                   .then(
                         objetoRespuesta =>
                         {
-                              console.log( "CASO CORRECTO (2do THEN)" );
-                              console.log( objetoRespuesta );
-                              renderizarMensajeRegistro( "Se ha realizado el registro del usuario...", true );
                               setTimeout( () => {}, 2500 );
-                              renderizarMensajeRegistro( "Se redirigira a la pantalla del login!!", true );
+                              renderizarMensajeRegistro( "Se ha realizado el registro del usuario...", true );
                               setTimeout(
                                     () =>
                                     {
-                                          location.replace("./index.html")
+                                          localStorage.setItem( "jwt", objetoRespuesta.jwt );
+                                          location.replace( "./mis-tareas.html" );
                                     },
                                     2000
                               )
@@ -252,8 +252,6 @@ window.addEventListener(
                   )
                   .catch( 
                         err => {
-                              console.log( err );
-                              console.warn( "Operacion erronea de POST" );
                               switch( err.status ){
                                     case 400:
                                           renderizarMensajeRegistro( "Este usuario ya se encuentra registrado", false );

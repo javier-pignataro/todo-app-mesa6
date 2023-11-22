@@ -3,96 +3,96 @@
 
 
 
-/* ------ comienzan las funcionalidades una vez que carga el documento ------ */
-window.addEventListener('load', function () {
+      /* ------ comienzan las funcionalidades una vez que carga el documento ------ */
+      window.addEventListener('load', function () {
 
-  /* ---------------- variables globales y llamado a funciones ---------------- */
-  
-
-
-  /* -------------------------------------------------------------------------- */
-  /*                          FUNCIÓN 1 - Cerrar sesión                         */
-  /* -------------------------------------------------------------------------- */
-
-  btnCerrarSesion.addEventListener('click', function () {
-   
+            /* ---------------- variables globales y llamado a funciones ---------------- */
+            const btnCerrarSesion = document.getElementById( "closeApp" );
+            const formCrearTarea = document.querySelector( ".nueva-tarea" );
 
 
 
-  });
+                  /* -------------------------------------------------------------------------- */
+                  /*                          FUNCIÓN 1 - Cerrar sesión                         */
+                  /* -------------------------------------------------------------------------- */
 
-  /* -------------------------------------------------------------------------- */
-  /*                 FUNCIÓN 2 - Obtener nombre de usuario [GET]                */
-  /* -------------------------------------------------------------------------- */
+                  btnCerrarSesion.addEventListener('click', function ()
+                  {
+                        
+                  });
 
-  function obtenerNombreUsuario() {
-   
+                  /* -------------------------------------------------------------------------- */
+                  /*                 FUNCIÓN 2 - Obtener nombre de usuario [GET]                */
+                  /* -------------------------------------------------------------------------- */
 
-
-
-  };
-
-
-  /* -------------------------------------------------------------------------- */
-  /*                 FUNCIÓN 3 - Obtener listado de tareas [GET]                */
-  /* -------------------------------------------------------------------------- */
-
-  function consultarTareas() {
-    
-    
-
-
-
-  };
-
-
-  /* -------------------------------------------------------------------------- */
-  /*                    FUNCIÓN 4 - Crear nueva tarea [POST]                    */
-  /* -------------------------------------------------------------------------- */
-
-  formCrearTarea.addEventListener('submit', function (event) {
-    
+                  function obtenerNombreUsuario() {
 
 
 
 
-  });
+                  };
 
 
-  /* -------------------------------------------------------------------------- */
-  /*                  FUNCIÓN 5 - Renderizar tareas en pantalla                 */
-  /* -------------------------------------------------------------------------- */
-  function renderizarTareas(listado) {
+                  /* -------------------------------------------------------------------------- */
+                  /*                 FUNCIÓN 3 - Obtener listado de tareas [GET]                */
+                  /* -------------------------------------------------------------------------- */
+
+                  function consultarTareas() {
 
 
 
 
 
+                  };
 
 
-  };
+                  /* -------------------------------------------------------------------------- */
+                  /*                    FUNCIÓN 4 - Crear nueva tarea [POST]                    */
+                  /* -------------------------------------------------------------------------- */
 
-  /* -------------------------------------------------------------------------- */
-  /*                  FUNCIÓN 6 - Cambiar estado de tarea [PUT]                 */
-  /* -------------------------------------------------------------------------- */
-  function botonesCambioEstado() {
-    
-    
+                  formCrearTarea.addEventListener('submit', function (event) {
 
 
 
-  }
 
 
-  /* -------------------------------------------------------------------------- */
-  /*                     FUNCIÓN 7 - Eliminar tarea [DELETE]                    */
-  /* -------------------------------------------------------------------------- */
-  function botonBorrarTarea() {
-   
-    
+                  });
 
-    
 
-  };
+                  /* -------------------------------------------------------------------------- */
+                  /*                  FUNCIÓN 5 - Renderizar tareas en pantalla                 */
+                  /* -------------------------------------------------------------------------- */
+                  function renderizarTareas(listado) {
 
-});
+
+
+
+
+
+
+                  };
+
+                  /* -------------------------------------------------------------------------- */
+                  /*                  FUNCIÓN 6 - Cambiar estado de tarea [PUT]                 */
+                  /* -------------------------------------------------------------------------- */
+                  function botonesCambioEstado() {
+
+
+
+
+
+                  }
+
+
+                  /* -------------------------------------------------------------------------- */
+                  /*                     FUNCIÓN 7 - Eliminar tarea [DELETE]                    */
+                  /* -------------------------------------------------------------------------- */
+                  function botonBorrarTarea() {
+
+
+
+
+
+                  };
+
+      });
